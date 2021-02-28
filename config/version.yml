@@ -1,0 +1,6 @@
+# Version Config
+api: 3
+# Configuration
+version:
+  number: 700
+  name: 7.0.0

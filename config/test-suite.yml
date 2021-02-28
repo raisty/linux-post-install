@@ -1,0 +1,129 @@
+# Install Config
+api: 2
+name: Test-Suite
+author: Prasad T
+# Configuration
+config:
+  # Enabled Tasks
+  tasks:
+    update: true
+    upgrade: false
+    # Add Repos
+    # individual repos flags are mentioned under config.add_repo key
+    repo: true
+    # Add PPAs
+    ppa: true
+    # APT Packages
+    apt: true
+    # Whether to purge packages mentioned in config.purge key
+    purge: true
+    debs: true
+    binaries: true
+    snaps: true
+  # Repository Flags
+  add_repo:
+    azurecli: true
+    bazel: true
+    chrome: true
+    docker: true
+    edge: true
+    gcsfuse: true
+    github: true
+    googlecloud: true
+    gvisor: true
+    hashicorp: true
+    mendeley: false
+    podman: true
+    ros: true
+    ros2: true
+    signal: true
+    skype: true
+    spotify: true
+    sublimetext: true
+    teams: true
+    vscode: true
+    winehq: true
+    # Debian
+    debian_nonfree: true
+    debian_contrib: true
+    # Ubuntu
+    ubuntu_universe: true
+    ubuntu_multiverse: true
+    ubuntu_restricted: true
+
+  # Flags
+  flags:
+    purge_enabled: true
+    preserve_debs: false
+
+  # Packages to purge
+  purge:
+    - gnome-mines
+  # PPA
+  ppa:
+    - ppa:yubico/stable
+  # Install components
+  # APT Packages, Python Modules, Debian packages
+  install:
+    # Debian packages.deb files
+    # CSV format
+    debian_packages:
+      - https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb,bat.deb
+    binaries:
+      - https://storage.googleapis.com/kubernetes-release/release/v1.20.1/bin/linux/amd64/kubectl,kubectl
+    snaps:
+      normal:
+        - htop
+      classic:
+        - hugo
+    apt:
+      # Admin related Stuff
+      administration:
+        - curl
+      # Security Related Stuff
+      security:
+        - gnupg2
+      # Productivity & Office Tools.
+      productivity:
+        - curl
+      # Tools related to development.
+      development:
+        - iputils-ping
+      # Everything Else
+      other:
+        - less
+      external:
+        # Docker
+        - docker-ce
+        # spotify
+        - spotify-client
+        # Github
+        - gh
+        # Gvisor
+        - runsc
+        # Hashicorp
+        - terraform
+        # Microsoft
+        - code
+        - azure-cli
+        # Google
+        - google-cloud-sdk
+        - google-chrome-stable
+        # Signal
+        - signal-desktop
+        # Skype
+        - skypeforlinux
+        # WineHQ
+        # - winehq-stable
+        # Bazel
+        - bazel
+        # Edge
+        - microsoft-edge-dev
+        # Teams
+        - teams
+        # Sublime
+        - sublime-text
+        # From Universe in Ubuntu
+        - apt-xapian-index
+        # Non-free in debian, multiverse in Ubuntu(canonical partner repos)
+        - unrar

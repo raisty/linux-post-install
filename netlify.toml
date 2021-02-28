@@ -1,0 +1,118 @@
+# Global settings applied to the whole site.
+[build]
+  publish = "_site/"
+
+[build.environment]
+  NOKOGIRI_USE_SYSTEM_LIBRARIES="true"
+
+# Production context: All deploys to the main
+# repository branch will inherit these settings.
+[context.production]
+  command = "chmod +x ./build/*.sh && ./build/netlify.sh --production"
+
+# Deploy Preview context: All Deploy Previews
+# will inherit these settings.
+[context.deploy-preview]
+  publish = "_site/"
+  command = "chmod +x ./build/*.sh && ./build/netlify.sh --pull-request"
+
+# Branch Deploy context: All deploys that are not in
+# an active Deploy Preview will inherit these settings.
+[context.branch-deploy]
+  command = "chmod +x ./build/*.sh && ./build/netlify.sh --branch"
+
+# GH URLs
+[[redirects]]
+  from = "/git"
+  to = "https://github.com/tprasadtp/ubuntu-post-install"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/github"
+  to = "https://github.com/tprasadtp/ubuntu-post-install"
+  status = 302
+  force = true
+
+# Issues
+[[redirects]]
+  from = "/issue"
+  query = {id = ":id"}
+  to = "https://github.com/tprasadtp/ubuntu-post-install/issues/:id"
+  status = 302
+  force = true
+
+
+[[redirects]]
+  from = "/issues"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/issues"
+  status = 302
+  force = true
+
+# Pulls
+[[redirects]]
+  from = "/pr"
+  query = {id = ":id"}
+  to = "https://github.com/tprasadtp/ubuntu-post-install/pull/:id"
+  status = 302
+  force = true
+
+
+[[redirects]]
+  from = "/prs"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/pulls"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/dp"
+  to = "/commit.json"
+  status = 200
+  force = true
+
+# Version to old version.yml
+# Avoid breaking old version checks
+[[redirects]]
+  from = "/config/version.yml"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/releases/latest/download/version.yml"
+  status = 301
+  force = true
+
+# /version stuff
+[[redirects]]
+  from = "/get/version"
+  to = "/get/v3/version"
+  status = 302
+  force = true
+
+# /v3/version check stuff
+[[redirects]]
+  from = "/get/v3/version"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/releases/latest/download/version.yml"
+  status = 302
+  force = true
+
+# Scripts
+[[redirects]]
+  from = "/get/after-effects"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/releases/latest/download/after-effects"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/get/after-effects.asc"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/releases/latest/download/after-effects.asc"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/get/sha256sum"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/releases/latest/download/sha256sum.txt"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/get/sha512sum"
+  to = "https://github.com/tprasadtp/ubuntu-post-install/releases/latest/download/sha512sum.txt"
+  status = 302
+  force = true

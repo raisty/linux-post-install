@@ -1,0 +1,75 @@
+version: 1
+name: XCORE
+author: @raisty
+config:
+  tasks:
+    update: true
+    upgrade: true
+    repo: true
+    ppa: true
+    apt: true
+  add_repo:
+    tor: true
+  ppa:
+    - ppa:micahflee/ppa
+    - ppa:font-manager/staging
+    - ppa:wireshark-dev/stable
+  flags:
+    purge_enabled: true
+  purge:
+    - thunderbird
+  install:
+    apt:
+      administration:
+        - apt-transport-https
+        - curl
+        - dconf-editor
+        - gnome-tweak-tool
+        - gparted
+        - htop
+        - timeshift
+      security:
+        - gufw
+        - privoxy
+      productivity:
+        - evolution
+        - evolution-ews
+      multimedia:
+        - darktable
+        - gpick
+        - transmission
+        - vlc
+      development:
+        - filezilla
+        - git
+        - micro
+      external:
+        - deb.torproject.org-keyring
+        - font-manager
+        - tor
+        - tor-geoipdb
+        - torbrowser-launcher
+        - torsocks
+        - wireshark
+    snaps:
+      normal:
+        - dbeaver-ce
+        - discord
+        - insomnia-designer
+        - keepassxc
+        - krita
+        - libreoffice
+        - minio-mc-nsg
+        - nmap
+        - onionshare
+        - rpi-imager
+      classic:
+        - atom
+        - code
+        - gitkraken
+        - go
+        - node
+        - sublime-text
+        - zaproxy
+      edge:
+        - btrfs-progs

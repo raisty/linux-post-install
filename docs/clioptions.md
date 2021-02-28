@@ -1,0 +1,269 @@
+# Command line options
+
+## YAML Configuration file
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects --config-file <filename>
+    ```
+
+    OR
+
+    ```console
+    ./after-effects -c <filename>
+    ```
+
+
+## Simulating package installation
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects -s
+    ```
+
+    OR
+
+    ```console
+    ./after-effects --simulate
+    ```
+
+??? tip "This flag/option applies to following tasks"
+
+    - Installing apt packages.
+    - Installing Debian package archives (DEBs).
+    - Installing Python packages.
+    - Upgrading system packages.
+    - Purging unwanted packages.
+
+Please do have a look at exceptions, as all tasks cannot be simulated.
+
+- This option will simulate installing packages mentioned in the config, using the apt-get's dry-run option.
+- This option can be used to check if the configuration and for testing.
+- Installation of DEB files also behaves in a similar way. It uses `dpkg -i --dry-run` to simulate installation.
+- Its a very good idea to simulate installation when you have reconfigured the apps and packages in the config to check what might be error prone.
+- DEB package files and binaries **will** be downloaded unlike apt-get package installs.
+
+??? bug "Exceptions - Not everything can be simulated"
+
+     - **Simulate flag will not simulate adding Repositories or PPAs.**
+     - If you want to revert the changes please use **Reset Repositories** option.
+     - PPAs and repositories **will** be added regardless of the flag.
+     - Python package installation cannot be simulated. (pip lacks support for it) The script will skip installing apt dependencies and python packages, if simulate option is used.
+     - APT package upgrades and apt repository metadata updates cannot be simulated.
+
+## Skip Version Checks
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects --no-version-check
+    ```
+
+Script will warn you and exit if you are not running latest version of the script. You can skip that by using the above option.
+
+
+## Fix for latest Ubuntu releases
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects -f
+    ```
+
+    OR
+
+    ```console
+    ./after-effects --fix
+    ```
+
+??? tip "This flag/option applies to following repositories"
+
+     - Google Cloud SDK
+     - GCSFUSE
+     - InSync
+     - Docker Community Edition
+     - Wine HQ
+
+Usually it takes a while for additional repositories (Docker,etc) to add support for latest release of Ubuntu. However we can use the previous release for which packages might be available. Using packages built for previous release works fine most of the time.
+
+- Repositories like Spotify and Google Chrome do not use code names in their repository URLs. So the above workaround is not necessary.
+- Derivatives of Ubuntu will use the code name of Ubuntu on which they are based. For example Linux mint 18.2 Serena will use code name `xenial` as it is based on Ubuntu 16.04 Xenial Xerus
+- This option applies only for the latest release and will be ignored if the release is not latest.
+
+## Fix fallback to LTS
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects --fix-mode-lts
+    ```
+
+Use LTS as fallback. This flag should be used in conjunction with `--fix` Otherwise it will be ignored. Instead of using previous Ubuntu release this will use the last LTS release. i.e if you are on disco and use this bionic repositories will be used. Please use this with caution as it may not work.
+
+??? danger "Note for Pre-Release/ development version of Ubuntu/Debian"
+
+    - If you are using a pre-release version of Ubuntu, you can use `--pre-release` flag to apply the above mentioned fix to pre-release version of Ubuntu.
+    - This flag can be used independent of `--fix`. If both are used together then both flags will be applied if the release is upcoming-release.
+    - If the release is stable, only `--fix` flag will be valid and `--pre-release` is ignored.
+
+## Purge not required packages
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects -d
+    ```
+
+    OR
+
+    ```console
+    ./after-effects --purge
+    ```
+
+Usually Ubuntu comes with some pre-installed games, packages which you might not need. This option is a switch to used in purging these packages mentioned in the subsequent sections. Since it is possible that user might purge necessary packages like sudo or other core system components, these just acts like a barrier from accidentally doing so.
+
+!!! warning
+
+    - This flag **MUST** be passed, if you intend to purge packages from system. Otherwise you will receive an error.
+    - If you are using YML config file you **MUST** set   `purge_enabled: true` under config.flags. See Example YAML file for more info.
+
+## Delete log file
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects -l
+    ```
+
+    OR
+
+    ```console
+    ./after-effects --delete-log
+    ```
+
+Just a quick way to delete logs generated by this script.
+
+!!! warning "Flag priority"
+    If you pass `-l`  rest of the commands will be ignored, as the script exits after deleting the log!
+
+## Keep downloaded DEB files
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects -k
+    ```
+
+    OR
+
+    ```console
+    ./after-effects --keep-debs
+    ```
+
+Keeps packages cached by APT and downloaded DEB packages.
+Default behavior is to clean apt cache and delete downloaded DEB packages.
+
+## Remote YAML configuration file
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effects --remote-yaml <URL to YAML file>
+    ```
+
+    OR
+
+    ```console
+    ./after-effects -r <URL to YAML file>
+    ```
+
+You can specify YAML file to use. Script will fetch it and parse it.The file should be available without any interactive logins.
+
+!!! warning
+    - If using GitHub gists, you **MUST** use raw gist URL.
+    - You should only use trusted remote locations to save your configurations and only use trusted configurations.
+
+## Version
+
+!!! snippet "Usage"
+
+    ```console
+    ./after-effect -v
+    ```
+
+    OR
+
+    ```console
+    ./after-effects --version
+    ```
+
+This will display version info. You do **not** have to be root to run this.
+
+## Autopilot Mode
+
+Autopilot mode is designed to run the script in a non interactive manner. Please see Autopilot in tasks for more info.
+
+## Help
+
+Displays this help option.
+
+<pre>./after-effects <font color="#A1EFE4">-h</font>
+
+A Post Installation Script for Ubuntu, Debian,
+Linux-Mint, elementaryOS, Pop!_OS, MX Linux etc.
+
+Usage: <font color="#D7FF87"> [sudo] ./after-effects </font><font color="#FF8700">  [options]</font>
+
+<font color="#FFD700">Non-Action options (can be run as non-root user)</font>
+<font color="#FFD700">---------------------------------------------------------</font>
+[-v | --version]      Display version info.
+[-h | --help]         Display this help message.
+
+<font color="#FFD700">Configuration Options</font>
+<font color="#FFD700">---------------------------------------------------------</font>
+[-c | --config-file]  Local yaml config file.
+[-r | --remote-yaml]  Use config yaml from a URL.
+
+<font color="#AFFFFF">The following options are &quot;action&quot; options and will</font>
+<font color="#AFFFFF">make changes to your system depending on tasks selcted.</font>
+<font color="#AFFFFF">---------------------------------------------------------</font>
+[-d | --purge]        Enable Purging packages
+[-f | --fix]          Fix codenames for new releases
+[-p | --pre-release]  Same as --fix but for beta/alpha
+                      releases of Ubuntu and Debian.
+[--fix-mode-lts]      Similar to --fix but fallback to
+                      last LTS. MUST be used with --fix.
+                      Only works on Ubuntu and Debian.
+[-k | --keep-debs]    Do not invoke apt-clean &amp; do not
+                      delete downloaded deb packages.
+[-l | --delete-log]   Deletes the logfile.
+                      (log/after-effects.log)
+[-s | --simulate]     Try not to make changes to system
+                      and use --dry-run Please read the
+                      documentation, to know its limits
+                      as everything cannot be simulated.
+
+<font color="#FFD700">Other Options</font>
+<font color="#FFD700">---------------------------------------------------------</font>
+[--no-env-checks]     Skip some env checks.
+[--no-version-check]  Skip checking for latest version
+[-A | --autopilot]    Enables AUTOPILOT mode(No Prompts).
+
+<font color="#949494">Debugging Options</font>
+<font color="#949494">---------------------------------------------------------</font>
+<font color="#949494">[-nx | --nx]          Just process config but do not</font>
+<font color="#949494">                      make any changes to the system.</font>
+<font color="#949494">[--debug]             Prints debug logs.</font>
+<font color="#949494">[--debug-trace]       Prints trace level logs which</font>
+<font color="#949494">                      includes output from apt-get</font>
+<font color="#949494">                      and other commands.</font>
+
+<font color="#D7FF87">Documentation, License and Version Information</font>
+<font color="#D7FF87">---------------------------------------------------------</font>
+Version : <font color="#FF8700">7.0.0</font>
+GitHub  : <font color="#AFFFFF">https://git.io/ubuntu-post-install</font>
+Docs    : <font color="#AFFFFF">https://ae.prasadt.com</font>
+License : <font color="#FF8700">GPLv3</font>
+---------------------------------------------------------</pre>
