@@ -28,6 +28,7 @@ config:
         - gparted
         - htop
         - timeshift
+        - zsh
       security:
         - gufw
         - privoxy

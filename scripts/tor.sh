@@ -1,4 +1,5 @@
 #!/bin/bash
+
 sudo systemctl start tor
 
 gsettings set org.gnome.system.proxy mode 'manual'
